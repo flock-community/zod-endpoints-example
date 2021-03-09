@@ -1,0 +1,24 @@
+{
+  "name": "zod-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prettier": "prettier --write \"src/**/*.{js,ts}\"",
+    "start": "ts-node ./src/run.ts"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "openapi-types": "^7.0.1",
+    "typescript": "4.1.2",
+    "uuid": "^8.3.1",
+    "zod-endpoints": "0.0.24"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.9",
+    "@types/node-fetch": "^2.5.7",
+    "prettier": "^2.2.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
