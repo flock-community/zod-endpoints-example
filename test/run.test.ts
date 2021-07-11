@@ -13,6 +13,7 @@ afterAll(() => {
 test("parameter with number", async () => {
 
   const id = "1a2c8758-e223-11eb-ba80-0242ac130004" as string
+  const idNotFound = "1a2c8758-e223-11eb-ba80-0242ac1d0004" as string
   const project = {
     id: id,
     name: "Todo 12",
@@ -64,6 +65,25 @@ test("parameter with number", async () => {
     "body": {
       "type": "application/json",
       "content": project
+    }
+  })
+
+  const resGetIdNotFound = await client({
+    method: "GET",
+    path: ["projects", idNotFound],
+    query: {},
+    headers: {},
+  })
+
+  expect(resGetIdNotFound).toStrictEqual({
+    "status": 500,
+    "headers": undefined,
+    "body": {
+      type: "application/json",
+      content: {
+        code: 112,
+        message: "Cannot find project"
+      }
     }
   })
 
