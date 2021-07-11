@@ -37,13 +37,13 @@ async function parseRequest(
   };
 }
 
-async function app(req: http.IncomingMessage, res: http.ServerResponse) {
+export async function app(req: http.IncomingMessage, res: http.ServerResponse) {
   const parse = await parseRequest(req);
   const match = z.matchRequest(schema, parse);
 
-  if (match && "output" in match.shape.name._def) {
-    const endpointName = match.shape.name._def.output._def
-      .value as keyof typeof server;
+  if (match && "defaultValue" in match.shape.name._def) {
+    const endpointName = match.shape.name._def.defaultValue() as keyof typeof server;
+    // @ts-ignore
     const endpoint = await server[endpointName]?.(parse);
     res.writeHead(
       endpoint.status,
@@ -56,5 +56,3 @@ async function app(req: http.IncomingMessage, res: http.ServerResponse) {
     res.end("Bad request...");
   }
 }
-
-http.createServer(app).listen(5000, () => console.log("Start..."));

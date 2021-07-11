@@ -23,28 +23,12 @@ export type Project = z.infer<typeof project>;
 export type Error = z.infer<typeof error>;
 export type Schema = z.output<typeof schema>;
 
-export const schema = z.union([
-  z.endpoint({
-    name: "LIST_PROJECT",
-    method: "GET",
-    path: [z.literal("projects")],
-    headers: {},
-    responses: [
-      z.response({
-        description: "Found project",
-        status: 200,
-        body: z.body({
-          type: "application/json",
-          content: z.array(project),
-        }),
-      }),
-      errorResponse,
-    ],
-  }),
+export const schema = z.endpoints([
+
   z.endpoint({
     name: "GET_PROJECT",
     method: "GET",
-    path: [z.literal("projects"), z.string().uuid()],
+    path: z.path("projects", z.string().uuid()),
     responses: [
       z.response({
         description: "Found project",
@@ -66,9 +50,26 @@ export const schema = z.union([
     ],
   }),
   z.endpoint({
+    name: "LIST_PROJECT",
+    method: "GET",
+    path: z.path("projects"),
+    headers: {},
+    responses: [
+      z.response({
+        description: "Found project",
+        status: 200,
+        body: z.body({
+          type: "application/json",
+          content: z.array(project),
+        }),
+      }),
+      errorResponse,
+    ],
+  }),
+  z.endpoint({
     name: "CREATE_PROJECT",
     method: "POST",
-    path: [z.literal("projects")],
+    path: z.path("projects"),
     body: z.body({
       type: "application/json",
       content: project,

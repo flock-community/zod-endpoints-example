@@ -36,11 +36,11 @@ export const client: z.Client<typeof schema> = async (req) => {
       .reduce((acc, cur) => ({ ...acc, [cur]: it.headers.get(cur) }), {});
     return {
       status: it.status,
-      headers: Object.entries(headers).length > 0 ? headers : undefined,
+      headers: Object.keys(headers).length > 0 ? headers : undefined,
       body: type
         ? {
             type: type,
-            content: await it.json(),
+            content: type === 'application/json' ? await it.json() : await it.text(),
           }
         : undefined,
     };
